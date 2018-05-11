@@ -28,6 +28,7 @@
         </provider>
 
         <receiver android:name=".StartActivityBroadcastReceiver" />
+        <receiver android:name=".RespondToQuestionBroadcastReceiver" />
     </application>
 
 </manifest>

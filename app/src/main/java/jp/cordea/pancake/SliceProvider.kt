@@ -13,6 +13,7 @@ class PancakeSliceProvider : SliceProvider() {
 
     companion object {
         private const val Header = "/header"
+        private const val Checkable = "/checkable"
     }
 
     override fun onCreateSliceProvider(): Boolean {
@@ -27,6 +28,9 @@ class PancakeSliceProvider : SliceProvider() {
         sliceUri?.let {
             if (sliceUri.path == Header) {
                 return createHeaderSlice(sliceUri)
+            }
+            if (sliceUri.path == Checkable) {
+                return createCheckableSlice(sliceUri)
             }
         }
         return null
@@ -68,11 +72,33 @@ class PancakeSliceProvider : SliceProvider() {
                     }
                     .build()
 
+    private fun createCheckableSlice(uri: Uri): Slice =
+            ListBuilder(context, uri, ListBuilder.INFINITY)
+                    .addRow {
+                        it.apply {
+                            setTitle("Do you like a pancake?")
+                            setPrimaryAction(SliceAction(
+                                    createRespondToQuestionIntent(),
+                                    "Like",
+                                    false
+                            ))
+                        }
+                    }
+                    .build()
+
     private fun createStartActivityIntent(): PendingIntent =
             PendingIntent.getBroadcast(
                     context,
                     0,
                     Intent(context, StartActivityBroadcastReceiver::class.java),
+                    0
+            )
+
+    private fun createRespondToQuestionIntent(): PendingIntent =
+            PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    Intent(context, RespondToQuestionBroadcastReceiver::class.java),
                     0
             )
 }
