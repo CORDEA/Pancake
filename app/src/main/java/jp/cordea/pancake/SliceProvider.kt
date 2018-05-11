@@ -14,6 +14,7 @@ class PancakeSliceProvider : SliceProvider() {
     companion object {
         private const val Header = "/header"
         private const val Checkable = "/checkable"
+        private const val Grid = "/grid"
     }
 
     override fun onCreateSliceProvider(): Boolean {
@@ -26,11 +27,11 @@ class PancakeSliceProvider : SliceProvider() {
 
     override fun onBindSlice(sliceUri: Uri?): Slice? {
         sliceUri?.let {
-            if (sliceUri.path == Header) {
-                return createHeaderSlice(sliceUri)
-            }
-            if (sliceUri.path == Checkable) {
-                return createCheckableSlice(sliceUri)
+            return when (sliceUri.path) {
+                Header -> createHeaderSlice(sliceUri)
+                Checkable -> createCheckableSlice(sliceUri)
+                Grid -> createGridSlice(sliceUri)
+                else -> null
             }
         }
         return null
@@ -82,6 +83,56 @@ class PancakeSliceProvider : SliceProvider() {
                                     "Like",
                                     false
                             ))
+                        }
+                    }
+                    .build()
+
+    private fun createGridSlice(uri: Uri): Slice =
+            ListBuilder(context, uri, ListBuilder.INFINITY)
+                    .addGridRow {
+                        it.apply {
+                            addCell {
+                                it.apply {
+                                    addImage(
+                                            IconCompat.createWithResource(
+                                                    context,
+                                                    R.drawable.ic_launcher_background
+                                            ),
+                                            ListBuilder.LARGE_IMAGE
+
+                                    )
+                                    addTitleText("1")
+                                    addText("")
+                                }
+                            }
+                            addCell {
+                                it.apply {
+                                    addImage(
+                                            IconCompat.createWithResource(
+                                                    context,
+                                                    R.drawable.ic_launcher_background
+                                            ),
+                                            ListBuilder.LARGE_IMAGE
+
+                                    )
+                                    addTitleText("1")
+                                    addText("")
+                                }
+                            }
+                            addCell {
+                                it.apply {
+                                    addImage(
+                                            IconCompat.createWithResource(
+                                                    context,
+                                                    R.drawable.ic_launcher_background
+                                            ),
+                                            ListBuilder.LARGE_IMAGE
+
+                                    )
+                                    addTitleText("1")
+                                    addText("")
+                                }
+                            }
                         }
                     }
                     .build()
