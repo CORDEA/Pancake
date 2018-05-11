@@ -29,6 +29,7 @@
 
         <receiver android:name=".StartActivityBroadcastReceiver" />
         <receiver android:name=".RespondToQuestionBroadcastReceiver" />
+        <receiver android:name=".UpdateRangeBroadcastReceiver" />
     </application>
 
 </manifest>

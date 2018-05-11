@@ -15,6 +15,7 @@ class PancakeSliceProvider : SliceProvider() {
         private const val Header = "/header"
         private const val Checkable = "/checkable"
         private const val Grid = "/grid"
+        private const val Range = "/range"
     }
 
     override fun onCreateSliceProvider(): Boolean {
@@ -31,6 +32,7 @@ class PancakeSliceProvider : SliceProvider() {
                 Header -> createHeaderSlice(sliceUri)
                 Checkable -> createCheckableSlice(sliceUri)
                 Grid -> createGridSlice(sliceUri)
+                Range -> createRangeSlice(sliceUri)
                 else -> null
             }
         }
@@ -136,6 +138,25 @@ class PancakeSliceProvider : SliceProvider() {
                         }
                     }
                     .build()
+
+    private fun createRangeSlice(uri: Uri): Slice =
+            ListBuilder(context, uri, ListBuilder.INFINITY)
+                    .addInputRange {
+                        it.apply {
+                            setTitle("Until you like pancake ...")
+                            setMax(UpdateRangeBroadcastReceiver.MAX)
+                            setInputAction(createUpdateRangeIntent())
+                        }
+                    }
+                    .build()
+
+    private fun createUpdateRangeIntent(): PendingIntent =
+            PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    Intent(context, UpdateRangeBroadcastReceiver::class.java),
+                    0
+            )
 
     private fun createStartActivityIntent(): PendingIntent =
             PendingIntent.getBroadcast(
