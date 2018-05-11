@@ -1,10 +1,13 @@
 package jp.cordea.pancake
 
+import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
+import androidx.core.graphics.drawable.IconCompat
 import androidx.slice.Slice
 import androidx.slice.SliceProvider
 import androidx.slice.builders.ListBuilder
+import androidx.slice.builders.SliceAction
 
 class PancakeSliceProvider : SliceProvider() {
 
@@ -53,7 +56,23 @@ class PancakeSliceProvider : SliceProvider() {
                     .setSeeMoreRow {
                         it.apply {
                             setTitle("Go to pancake wonderland")
+                            setPrimaryAction(SliceAction(
+                                    createStartActivityIntent(),
+                                    IconCompat.createWithResource(
+                                            context,
+                                            R.drawable.ic_launcher_background
+                                    ),
+                                    "Go"
+                            ))
                         }
                     }
                     .build()
+
+    private fun createStartActivityIntent(): PendingIntent =
+            PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    Intent(context, StartActivityBroadcastReceiver::class.java),
+                    0
+            )
 }

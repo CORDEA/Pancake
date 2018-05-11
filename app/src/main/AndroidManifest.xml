@@ -26,6 +26,8 @@
                 <category android:name="android.app.slice.category.SLICE" />
             </intent-filter>
         </provider>
+
+        <receiver android:name=".StartActivityBroadcastReceiver" />
     </application>
 
 </manifest>
